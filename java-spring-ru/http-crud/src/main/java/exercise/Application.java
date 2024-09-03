@@ -27,39 +27,39 @@ public class Application {
     }
 
     // BEGIN
-    @GetMapping("/posts") // Список страниц
+    @GetMapping("/posts")
     public List<Post> index(@RequestParam(defaultValue = "10") Integer limit) {
         return posts.stream().limit(limit).toList();
     }
 
-    @PostMapping("/posts") // Создание страницы
-    public Post create(@RequestBody Post Post) {
-        posts.add(Post);
-        return Post;
+    @PostMapping("/posts")
+    public Post create(@RequestBody Post post) {
+        posts.add(post);
+        return post;
     }
 
-    @GetMapping("/posts/{id}") // Вывод страницы
+    @GetMapping("/posts/{id}")
     public Optional<Post> show(@PathVariable String id) {
-        var Post = posts.stream()
+        var post = posts.stream()
                 .filter(p -> p.getId().equals(id))
                 .findFirst();
-        return Post;
+        return post;
     }
 
-    @PutMapping("/posts/{id}") // Обновление страницы
+    @PutMapping("/posts/{id}")
     public Post update(@PathVariable String id, @RequestBody Post data) {
         var maybePost = posts.stream()
                 .filter(p -> p.getId().equals(id))
                 .findFirst();
         if (maybePost.isPresent()) {
-            var Post = maybePost.get();
-            Post.setTitle(data.getTitle());
-            Post.setBody(data.getBody());
+            var post = maybePost.get();
+            post.setTitle(data.getTitle());
+            post.setBody(data.getBody());
         }
         return data;
     }
 
-    @DeleteMapping("/posts/{id}") // Удаление страницы
+    @DeleteMapping("/posts/{id}")
     public void destroy(@PathVariable String id) {
         posts.removeIf(p -> p.getId().equals(id));
     }
